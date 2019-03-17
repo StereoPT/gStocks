@@ -1,0 +1,2 @@
+# gStocks
+Android Stock Application
