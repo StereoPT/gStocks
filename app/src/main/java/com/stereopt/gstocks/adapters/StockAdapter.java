@@ -14,10 +14,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
     private List<Stock> stockList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView symbol;
         public TextView name;
 
         public MyViewHolder(View view) {
             super(view);
+            symbol = (TextView)view.findViewById(R.id.stockSymbol);
             name = (TextView)view.findViewById(R.id.stockName);
         }
     }
@@ -35,6 +37,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Stock stock = stockList.get(position);
+        holder.symbol.setText(stock.getSymbol());
         holder.name.setText(stock.getName());
     }
 

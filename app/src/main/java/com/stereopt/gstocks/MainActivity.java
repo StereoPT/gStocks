@@ -3,11 +3,14 @@ package com.stereopt.gstocks;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
 
 import com.stereopt.gstocks.adapters.StockAdapter;
+import com.stereopt.gstocks.listeners.RecyclerTouchListener;
 import com.stereopt.gstocks.models.Stock;
 
 import java.util.ArrayList;
@@ -30,66 +33,47 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Stock stock = stockList.get(position);
+                Toast.makeText(getApplicationContext(), stock.getSymbol() + " is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) { }
+        }));
 
         prepareStockData();
     }
 
     private void prepareStockData() {
-        Stock stock = new Stock("Altri");
-        stockList.add(stock);
-
-        stock = new Stock("Banco Comercial");
-        stockList.add(stock);
-
-        stock = new Stock("Corticeira Amorim");
-        stockList.add(stock);
-
-        stock = new Stock("CTT Correios de Portugal SA");
-        stockList.add(stock);
-
-        stock = new Stock("EDP");
-        stockList.add(stock);
-
-        stock = new Stock("EDP Renovaveis");
-        stockList.add(stock);
-
-        stock = new Stock("Galp Energia");
-        stockList.add(stock);
-
-        stock = new Stock("Ibersol");
-        stockList.add(stock);
-
-        stock = new Stock("J.Martins");
-        stockList.add(stock);
-
-        stock = new Stock("Mota Engil");
-        stockList.add(stock);
-
-        stock = new Stock("Nos SGPS SA");
-        stockList.add(stock);
-
-        stock = new Stock("Pharol SGPS SA");
-        stockList.add(stock);
-
-        stock = new Stock("Ramada");
-        stockList.add(stock);
-
-        stock = new Stock("REN");
-        stockList.add(stock);
-
-        stock = new Stock("Semapa");
-        stockList.add(stock);
-
-        stock = new Stock("Sonae");
-        stockList.add(stock);
-
-        stock = new Stock("Sonae Capital");
-        stockList.add(stock);
-
-        stock = new Stock("The Navigator");
-        stockList.add(stock);
+        createStock("ALTR", "Altri");
+        createStock("BCP", "Banco Comercial Português");
+        createStock("COR", "Corticeira Amorim");
+        createStock("CTT", "CTT Correios de Portugal");
+        createStock("EDP", "Energias de Portugal");
+        createStock("EDPR", "EDP Renováveis");
+        createStock("GALP", "Galp Energia");
+        createStock("IBS", "Ibersol");
+        createStock("JMT", "Jerónimo Martins");
+        createStock("EGL", "Mota-Engil");
+        createStock("NOS", "NOS");
+        createStock("NBA", "Novabase");
+        createStock("PHR", "Pharol");
+        createStock("RENE", "Redes Energéticas Nacionais");
+        createStock("SEM", "Semapa");
+        createStock("SON", "Sonae");
+        createStock("SONC", "Sonae Capital");
+        createStock("NVG", "The Navigator Company");
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void createStock(String symbol, String name) {
+        stockList.add(new Stock(symbol, name));
     }
 }
