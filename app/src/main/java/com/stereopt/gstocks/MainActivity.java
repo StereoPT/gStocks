@@ -1,5 +1,6 @@
 package com.stereopt.gstocks;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import com.stereopt.gstocks.adapters.StockAdapter;
 import com.stereopt.gstocks.listeners.RecyclerTouchListener;
 import com.stereopt.gstocks.models.Stock;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Stock stock = stockList.get(position);
-                Toast.makeText(getApplicationContext(), stock.getSymbol() + " is selected!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), stock.getSymbol() + " is selected!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), StockActivity.class);
+                    intent.putExtra("stock_symbol", stock.getSymbol());
+                    intent.putExtra("stock_name", stock.getName());
+                startActivity(intent);
             }
 
             @Override
