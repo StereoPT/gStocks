@@ -6,8 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".StockActivity">
 
+    <TextView
+        android:id="@+id/stockName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Stock"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/stockChart"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.github.mikephil.charting.charts.CandleStickChart
         android:id="@+id/stockChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="666dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stockName" />
 </android.support.constraint.ConstraintLayout>

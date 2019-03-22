@@ -52,6 +52,9 @@ public class StockActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Stock stock = new Stock(intent.getStringExtra("stock_symbol"), intent.getStringExtra("stock_name"));
 
+        TextView stockName = (TextView)findViewById(R.id.stockName);
+        stockName.setText(stock.getName());
+
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
         dialog.show();
@@ -91,27 +94,29 @@ public class StockActivity extends AppCompatActivity {
 
     private void setupChart(JSONObject data) {
         stockChart.setHighlightPerDragEnabled(true);
-        stockChart.setDrawBorders(true);
-        stockChart.setBorderColor(R.color.colorPrimaryDark);
 
-        YAxis yAxis = stockChart.getAxisLeft();
-        YAxis rightAxis = stockChart.getAxisRight();
-        yAxis.setDrawGridLines(false);
-        rightAxis.setDrawGridLines(false);
-        stockChart.requestDisallowInterceptTouchEvent(true);
+        //stockChart.setDrawBorders(true);
+        //stockChart.setBorderColor(R.color.colorPrimaryDark);
 
-        XAxis xAxis = stockChart.getXAxis();
+        //YAxis yAxis = stockChart.getAxisLeft();
+        //YAxis rightAxis = stockChart.getAxisRight();
+        //yAxis.setDrawGridLines(false);
+        //rightAxis.setDrawGridLines(false);
+        //stockChart.requestDisallowInterceptTouchEvent(true);
 
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(false);
-        rightAxis.setTextColor(Color.WHITE);
-        yAxis.setDrawLabels(false);
-        xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setAvoidFirstLastClipping(true);
+        //XAxis xAxis = stockChart.getXAxis();
+        //xAxis.setDrawGridLines(false);
+        //xAxis.setDrawLabels(false);
 
-        Legend l = stockChart.getLegend();
-        l.setEnabled(false);
+        //rightAxis.setTextColor(Color.WHITE);
+        //yAxis.setDrawLabels(false);
+
+        //xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
+        //xAxis.setAvoidFirstLastClipping(true);
+
+        //Legend l = stockChart.getLegend();
+        //l.setEnabled(false);
 
         ArrayList<CandleEntry> yValsCandleStick = new ArrayList<CandleEntry>();
 
@@ -135,15 +140,16 @@ public class StockActivity extends AppCompatActivity {
         }
 
         CandleDataSet set1 = new CandleDataSet(yValsCandleStick, "DataSet 1");
-        set1.setColor(Color.rgb(80, 80, 80));
-        set1.setShadowColor(R.color.colorPrimaryLight);
-        set1.setShadowWidth(0.8f);
+
+        //set1.setColor(Color.rgb(80, 80, 80));
+        //set1.setShadowColor(R.color.colorPrimaryLight);
+        //set1.setShadowWidth(0.8f);
         set1.setDecreasingColor(Color.RED);
         set1.setDecreasingPaintStyle(Paint.Style.FILL);
         set1.setIncreasingColor(Color.GREEN);
         set1.setIncreasingPaintStyle(Paint.Style.FILL);
         set1.setNeutralColor(Color.LTGRAY);
-        set1.setDrawValues(false);
+        //set1.setDrawValues(false);
 
         CandleData candleData = new CandleData(set1);
         stockChart.setData(candleData);
