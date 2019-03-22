@@ -6,12 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".StockActivity">
 
-    <TextView
-        android:id="@+id/testStock"
+    <com.github.mikephil.charting.charts.CandleStickChart
+        android:id="@+id/stockChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="355dp" />
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>
