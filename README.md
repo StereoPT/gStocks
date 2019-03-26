@@ -1,6 +1,6 @@
 # gStocks
 
-![gStocks](https://raw.githubusercontent.com/StereoPT/guiChat/master/screens/gStocks_001.jpg)
+![gStocks](https://raw.githubusercontent.com/StereoPT/guiChat/master/screens/gStocks_001.png)
 
 
 ## ToDo List:
