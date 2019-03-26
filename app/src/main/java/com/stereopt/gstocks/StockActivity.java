@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -43,6 +44,7 @@ public class StockActivity extends AppCompatActivity {
     //This is Deprecated, change it Later
     private ProgressDialog dialog;
     private CandleStickChart stockChart;
+    private Stock stock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class StockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock);
 
         Intent intent = getIntent();
-        Stock stock = new Stock(intent.getStringExtra("stock_symbol"), intent.getStringExtra("stock_name"));
+        stock = new Stock(intent.getStringExtra("stock_symbol"), intent.getStringExtra("stock_name"));
 
         TextView stockName = (TextView)findViewById(R.id.stockName);
         stockName.setText(stock.getName());
@@ -93,30 +95,37 @@ public class StockActivity extends AppCompatActivity {
     }
 
     private void setupChart(JSONObject data) {
+        //Chart Description
+        Description description = new Description();
+            description.setText(stock.getName() + " Chart");
+        stockChart.setDescription(description);
+
+        //Chart Border & Grid
+        stockChart.setDrawGridBackground(false);
+        stockChart.setDrawBorders(true);
+        stockChart.setBorderWidth(2);
+        stockChart.setBorderColor(Color.parseColor("#00796B"));
+
         stockChart.setHighlightPerDragEnabled(true);
 
-        //stockChart.setDrawBorders(true);
-        //stockChart.setBorderColor(R.color.colorPrimaryDark);
+        YAxis yAxis = stockChart.getAxisLeft();
+            yAxis.setDrawGridLines(false);
+            yAxis.setDrawLabels(false);
+        YAxis rightAxis = stockChart.getAxisRight();
+            rightAxis.setDrawGridLines(false);
+            //rightAxis.setTextColor(Color.WHITE);
 
-        //YAxis yAxis = stockChart.getAxisLeft();
-        //YAxis rightAxis = stockChart.getAxisRight();
-        //yAxis.setDrawGridLines(false);
-        //rightAxis.setDrawGridLines(false);
-        //stockChart.requestDisallowInterceptTouchEvent(true);
+        stockChart.requestDisallowInterceptTouchEvent(true);
 
-        //XAxis xAxis = stockChart.getXAxis();
-        //xAxis.setDrawGridLines(false);
-        //xAxis.setDrawLabels(false);
+        XAxis xAxis = stockChart.getXAxis();
+            xAxis.setDrawGridLines(false);
+            xAxis.setDrawLabels(false);
+            xAxis.setGranularity(1f);
+            xAxis.setGranularityEnabled(true);
+            xAxis.setAvoidFirstLastClipping(true);
 
-        //rightAxis.setTextColor(Color.WHITE);
-        //yAxis.setDrawLabels(false);
-
-        //xAxis.setGranularity(1f);
-        //xAxis.setGranularityEnabled(true);
-        //xAxis.setAvoidFirstLastClipping(true);
-
-        //Legend l = stockChart.getLegend();
-        //l.setEnabled(false);
+        Legend l = stockChart.getLegend();
+            l.setEnabled(false);
 
         ArrayList<CandleEntry> yValsCandleStick = new ArrayList<CandleEntry>();
 
@@ -139,17 +148,16 @@ public class StockActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        CandleDataSet set1 = new CandleDataSet(yValsCandleStick, "DataSet 1");
-
-        //set1.setColor(Color.rgb(80, 80, 80));
-        //set1.setShadowColor(R.color.colorPrimaryLight);
-        //set1.setShadowWidth(0.8f);
-        set1.setDecreasingColor(Color.RED);
-        set1.setDecreasingPaintStyle(Paint.Style.FILL);
-        set1.setIncreasingColor(Color.GREEN);
-        set1.setIncreasingPaintStyle(Paint.Style.FILL);
-        set1.setNeutralColor(Color.LTGRAY);
-        //set1.setDrawValues(false);
+        CandleDataSet set1 = new CandleDataSet(yValsCandleStick, stock.getName());
+            set1.setColor(Color.rgb(80, 80, 80));
+            set1.setShadowColor(R.color.colorPrimaryLight);
+            set1.setShadowWidth(0.8f);
+            set1.setDecreasingColor(Color.RED);
+            set1.setDecreasingPaintStyle(Paint.Style.FILL);
+            set1.setIncreasingColor(Color.GREEN);
+            set1.setIncreasingPaintStyle(Paint.Style.FILL);
+            set1.setNeutralColor(Color.LTGRAY);
+            set1.setDrawValues(false);
 
         CandleData candleData = new CandleData(set1);
         stockChart.setData(candleData);
