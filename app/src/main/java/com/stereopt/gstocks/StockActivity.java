@@ -52,7 +52,7 @@ public class StockActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock);
 
         Intent intent = getIntent();
-        stock = new Stock(intent.getStringExtra("stock_symbol"), intent.getStringExtra("stock_name"));
+        stock = new Stock(intent.getStringExtra("stock_symbol"), intent.getStringExtra("stock_name"), "");
 
         TextView stockName = (TextView)findViewById(R.id.stockName);
         stockName.setText(stock.getName());

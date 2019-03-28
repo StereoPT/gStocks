@@ -87,6 +87,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createStock(String symbol, String name) {
-        stockList.add(new Stock(symbol, name));
+        stockList.add(new Stock(symbol, name, ""));
     }
 }
