@@ -1,7 +1,9 @@
 package com.stereopt.gstocks;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,13 +11,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.stereopt.gstocks.adapters.StockAdapter;
+import com.stereopt.gstocks.helpers.StockDBHelper;
 import com.stereopt.gstocks.listeners.RecyclerTouchListener;
 import com.stereopt.gstocks.models.Stock;
-
-import org.json.JSONObject;
+import com.stereopt.gstocks.models.Stock.StockEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Stock> stockList = new ArrayList<>();
     private RecyclerView recyclerView;
     private StockAdapter mAdapter;
+    private StockDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView)findViewById(R.id.stockList);
+
+        dbHelper = new StockDBHelper(this.getApplicationContext());
 
         mAdapter = new StockAdapter(stockList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -64,7 +68,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void prepareStockData() {
-        createStock("ALTR", "Altri");
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = {
+            BaseColumns._ID,
+            StockEntry.COLUMN_SYMBOL,
+            StockEntry.COLUMN_NAME,
+            StockEntry.COLUMN_REGION };
+
+        String sortOrder = StockEntry.COLUMN_SYMBOL + " DESC";
+        Cursor cursor = db.query(
+            StockEntry.TABLE_NAME,
+            projection,
+            null,
+            null,
+            null,
+            null,
+            sortOrder);
+
+        while(cursor.moveToNext()) {
+            long stockID = cursor.getLong(cursor.getColumnIndexOrThrow(StockEntry._ID));
+            String stockSymbol = cursor.getString(cursor.getColumnIndexOrThrow(StockEntry.COLUMN_SYMBOL));
+            String stockName = cursor.getString(cursor.getColumnIndexOrThrow(StockEntry.COLUMN_NAME));
+            String stockRegion = cursor.getString(cursor.getColumnIndexOrThrow(StockEntry.COLUMN_REGION));
+
+            createStock(stockSymbol, stockName);
+        }
+
+        /*createStock("ALTR", "Altri");
         createStock("BCP", "Banco Comercial Português");
         createStock("COR", "Corticeira Amorim");
         createStock("CTT", "CTT Correios de Portugal");
@@ -81,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         createStock("SEM", "Semapa");
         createStock("SON", "Sonae");
         createStock("SONC", "Sonae Capital");
-        createStock("NVG", "The Navigator Company");
+        createStock("NVG", "The Navigator Company");*/
 
         mAdapter.notifyDataSetChanged();
     }

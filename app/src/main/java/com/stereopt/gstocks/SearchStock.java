@@ -1,5 +1,6 @@
 package com.stereopt.gstocks;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.stereopt.gstocks.adapters.SearchAdapter;
 import com.stereopt.gstocks.adapters.StockAdapter;
+import com.stereopt.gstocks.helpers.StockDBHelper;
 import com.stereopt.gstocks.models.Stock;
 
 import org.json.JSONArray;

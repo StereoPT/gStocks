@@ -1,5 +1,7 @@
 package com.stereopt.gstocks.models;
 
+import android.provider.BaseColumns;
+
 public class Stock {
     private String symbol;
     private String name;
@@ -34,4 +36,13 @@ public class Stock {
     }
 
     public void setRegion(String region) { this.region = region; }
+
+    //***** ***** ***** ***** ***** STOCK DATABASE ***** ***** ***** ***** *****//
+
+    public static class StockEntry implements BaseColumns {
+        public static final String TABLE_NAME = "stocks";
+        public static final String COLUMN_SYMBOL = "symbol";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_REGION = "region";
+    }
 }
