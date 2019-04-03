@@ -45,4 +45,12 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.MyViewHolder
     public int getItemCount() {
         return stockList.size();
     }
+
+    public void clear() {
+        stockList.clear();
+    }
+
+    public void addAll(List<Stock> list) {
+        stockList.addAll(list);
+    }
 }

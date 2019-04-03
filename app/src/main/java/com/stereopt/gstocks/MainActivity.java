@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,32 +24,40 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private StockDBHelper dbHelper;
+
     private List<Stock> stockList = new ArrayList<>();
+    private SwipeRefreshLayout swipeContainer;
     private RecyclerView recyclerView;
     private StockAdapter mAdapter;
-    private StockDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView)findViewById(R.id.stockList);
-
+        //Local Database
         dbHelper = new StockDBHelper(this.getApplicationContext());
 
-        mAdapter = new StockAdapter(stockList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(mAdapter);
+        //Activity Elements
+        swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
+        recyclerView = (RecyclerView)findViewById(R.id.stockList);
+
+        SetupRecycler();
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mAdapter.clear();
+                prepareStockData();
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Stock stock = stockList.get(position);
-                //Toast.makeText(getApplicationContext(), stock.getSymbol() + " is selected!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), StockActivity.class);
                     intent.putExtra("stock_symbol", stock.getSymbol());
                     intent.putExtra("stock_name", stock.getName());
@@ -62,12 +71,22 @@ public class MainActivity extends AppCompatActivity {
         prepareStockData();
     }
 
+    private void SetupRecycler() {
+        mAdapter = new StockAdapter(stockList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(mAdapter);
+    }
+
     public void btnAddNewStock(View view) {
         Intent intent = new Intent(getApplicationContext(), SearchStock.class);
         startActivity(intent);
     }
 
     private void prepareStockData() {
+        stockList.clear();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = {
             BaseColumns._ID,
@@ -94,26 +113,9 @@ public class MainActivity extends AppCompatActivity {
             createStock(stockSymbol, stockName);
         }
 
-        /*createStock("ALTR", "Altri");
-        createStock("BCP", "Banco Comercial Português");
-        createStock("COR", "Corticeira Amorim");
-        createStock("CTT", "CTT Correios de Portugal");
-        createStock("EDP", "Energias de Portugal");
-        createStock("EDPR", "EDP Renováveis");
-        createStock("GALP", "Galp Energia");
-        createStock("IBS", "Ibersol");
-        createStock("JMT", "Jerónimo Martins");
-        createStock("EGL", "Mota-Engil");
-        createStock("NOS", "NOS");
-        createStock("NBA", "Novabase");
-        createStock("PHR", "Pharol");
-        createStock("RENE", "Redes Energéticas Nacionais");
-        createStock("SEM", "Semapa");
-        createStock("SON", "Sonae");
-        createStock("SONC", "Sonae Capital");
-        createStock("NVG", "The Navigator Company");*/
-
-        mAdapter.notifyDataSetChanged();
+        if(swipeContainer.isRefreshing()) {
+            swipeContainer.setRefreshing(false);
+        }
     }
 
     private void createStock(String symbol, String name) {
