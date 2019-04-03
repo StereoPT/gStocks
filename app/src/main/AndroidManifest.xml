@@ -14,7 +14,7 @@
         <activity android:name=".SearchStock"></activity>
         <activity
             android:name=".StockActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"> </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
