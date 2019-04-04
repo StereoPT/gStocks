@@ -2,6 +2,7 @@ package com.stereopt.gstocks;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
