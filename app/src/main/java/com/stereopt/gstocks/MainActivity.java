@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.stereopt.gstocks.adapters.StockAdapter;
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private StockDBHelper dbHelper;
 
     private List<Stock> stockList = new ArrayList<>();
+    private DrawerLayout drawerLayout;
     private SwipeRefreshLayout swipeContainer;
     private RecyclerView recyclerView;
     private StockAdapter mAdapter;
@@ -39,7 +45,14 @@ public class MainActivity extends AppCompatActivity {
         //Local Database
         dbHelper = new StockDBHelper(this.getApplicationContext());
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.icon_menu);
+
         //Activity Elements
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         swipeContainer = (SwipeRefreshLayout)findViewById(R.id.swipeContainer);
         recyclerView = (RecyclerView)findViewById(R.id.stockList);
 
@@ -78,6 +91,17 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void btnAddNewStock(View view) {

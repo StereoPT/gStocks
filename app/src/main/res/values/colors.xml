@@ -9,5 +9,8 @@
     <color name="textSecondary">#757575</color>
     <color name="divider">#BDBDBD</color>
 
+    <color name="drawerBackground">#1d2228</color>
+    <color name="drawerText">#FFFFFF</color>
+
     <color name="black_overlay">#66000000</color>
 </resources>

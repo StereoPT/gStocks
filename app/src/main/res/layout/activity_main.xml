@@ -2,14 +2,39 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/contentFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <EditText
+                android:id="@+id/stockSearchBar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/stock_search_bar"
+                android:drawableLeft="@drawable/icon_search"
+                android:ems="10"
+                android:hint="Search for Stocks"
+                android:includeFontPadding="false"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </android.support.v7.widget.Toolbar>
+
         <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
@@ -32,7 +57,7 @@
             android:onClick="btnAddNewStock"
             android:src="@drawable/baseline_add_black_48"
             app:backgroundTint="@color/colorPrimaryDark" />
-    </FrameLayout>
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navView"
@@ -40,5 +65,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_view"/>
+        android:background="@color/drawerBackground"
+        app:itemTextColor="@color/drawerText"
+        app:itemIconTint="@color/drawerText"
+        app:menu="@menu/drawer_view" />
 </android.support.v4.widget.DrawerLayout>

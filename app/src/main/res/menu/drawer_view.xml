@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
-        <item android:id="@+id/signInUp"
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/accountGroup">
+        <item
+            android:id="@+id/signInUp"
+            android:icon="@drawable/icon_user"
             android:title="Sign In / Sign Up" />
     </group>
-    <group>
-        <item android:id="@+id/sendFeedback"
+    <group android:id="@+id/settingsGroup">
+        <item
+            android:id="@+id/sendFeedback"
+            android:icon="@drawable/icon_feedback"
             android:title="Enviar comentários" />
-        <item android:id="@+id/settings"
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/icon_settings"
             android:title="Configurações" />
     </group>
 </menu>
