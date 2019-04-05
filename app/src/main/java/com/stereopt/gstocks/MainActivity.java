@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.stereopt.gstocks.adapters.StockAdapter;
 import com.stereopt.gstocks.helpers.StockDBHelper;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void btnAddNewStock(View view) {
+    public void openStockSearch(View view) {
         Intent intent = new Intent(getApplicationContext(), SearchStock.class);
         startActivity(intent);
     }

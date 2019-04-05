@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
+
     <LinearLayout
         android:id="@+id/contentFrame"
         android:layout_width="match_parent"
@@ -30,9 +31,13 @@
                 android:ems="10"
                 android:hint="Search for Stocks"
                 android:includeFontPadding="false"
-                android:inputType="text"
+                android:onClick="openStockSearch"
                 android:singleLine="true"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:focusable="false"
+                android:editable="false"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -48,15 +53,6 @@
                 android:scrollbars="vertical" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnNewStock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:onClick="btnAddNewStock"
-            android:src="@drawable/baseline_add_black_48"
-            app:backgroundTint="@color/colorPrimaryDark" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -69,4 +65,5 @@
         app:itemTextColor="@color/drawerText"
         app:itemIconTint="@color/drawerText"
         app:menu="@menu/drawer_view" />
+
 </android.support.v4.widget.DrawerLayout>
